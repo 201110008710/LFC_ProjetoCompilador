@@ -4,70 +4,78 @@
 	#include "scannerDefi.h"
 
 LETRA [a-zA-Z]
+
 DIGITO [0-9]
 
 %%
 
-<<EOF>>									return EndOfFile;
+<<EOF>>									{printf("\n\nEnd of file\n\n"); return 0;}
 
-"string"								return STRING;
+["string"]{6}							printf("=> Palavra Reservada : 'string'\n");
 
-"else"									return ELSE;
+"else"									printf("=> Palavra Reservada : 'else'\n");
 
-"if"									return IF;
+"if"									printf("=> Palavra Reservada : 'if'\n");
 
-"int" 									return INT;
+"int" 									printf("=> Palavra Reservada : 'int'\n");
 										
-"return"								return RETURN;
+"return"								printf("=> Palavra Reservada : 'return'\n");
 										
-"void"									return VOID;
+"void"									printf("=> Palavra Reservada : 'void'\n");
 										
-"while"									return WHILE;
+"while"									printf("=> Palavra Reservada : 'while'\n");
 
-"+"										return MAIS;
+"+"										printf("=> Caractere especial : '+'\n");
 
-"-"										return MENOS;
+"-"										printf("=> Caractere especial : '-'\n");
 
-"*"										return ASTERISCO;
+"*"										printf("=> Caractere especial : '*'\n");
 
-"/"										return BARRA;
+"/"										printf("=> Caractere especial : '/'\n");
 
-"<"										return MENOR;
+"<"										printf("=> Caractere especial : '<'\n");
 
-"<="									return MENOR_IGUAL;
+"<="									printf("=> Caractere especial : '<='\n");
 
-">"										return MAIOR;
+">"										printf("=> Caractere especial : '>'\n");
 
-">="									return MAIOR_IGUAL;
+">="									printf("=> Caractere especial : '>='\n");
 
-"=="									return IGUAL_IGUAL;
+"=="									printf("=> Caractere especial : '=='\n");
 
-"!="									return DIFERENTE;
+"!="									printf("=> Caractere especial : '!='\n");
 
-"="										return IGUAL;
+"="										printf("=> Caractere especial : '='\n");
 
-";"										return PONTO_E_VIRGULA;
+";"										printf("=> Caractere especial : ';'\n");
 
-","										return VIRGULA;
+","										printf("=> Caractere especial : ','\n");
 
-"("										return ABRE_PARENTESE;
+"("										printf("=> Caractere especial : '('\n");
 
-")"										return FECHA_PARENTESE;
+")"										printf("=> Caractere especial : ')'\n");
 
-"["										return ABRE_COLCHETE;
+"["										printf("=> Caractere especial : '['\n");
 
-"]"										return FECHA_COLCHETE;
+"]"										printf("=> Caractere especial : ']'\n");
 
-"{"										return ABRE_CHAVE;
+"{"										printf("=> Caractere especial : '{'\n");
 
-"}"										return FECHA_CHAVE;
-
-"/*"									return BARRA_ASTERISCO;
-
-"*/"									return ASTERISCO_BARRA;
+"}"										printf("=> Caractere especial : '}'\n");
 
 
-{LETRA}{LETRA}*							return ID;
+{LETRA}{LETRA}*							printf("=> ID : '%s'\n",yytext);
+
+{DIGITO}{DIGITO}*						printf("=> Digito : '%s'\n",yytext);
+
+{DIGITO}{DIGITO}*{LETRA}{LETRA}*					printf("=> Indentificador Invalido : '%s'\n",yytext);
+{LETRA}{LETRA}*{DIGITO}{DIGITO}*					printf("=> Indentificador Invalido : '%s'\n",yytext);
+{LETRA}{LETRA}*{DIGITO}{DIGITO}*{LETRA}{LETRA}*		printf("=> Indentificador Invalido : '%s'\n",yytext);
+
+["][^"]*["]								printf("=> Cadeia String : '%s'\n",yytext);
+
+
+"/*"([^*]|[*]|[^/])*[*]+[/$]				printf("=> Comentario : '%s'\n",yytext);
 
 
 .|\n|\r
@@ -75,19 +83,22 @@ DIGITO [0-9]
 %%
 int main(int argc, char* argv[]){
 
+	//Verifica a quantidade de parametros que foram passados pra 'main'
+
+	//Caso não seja passado parametros o yylex() sera executado normalmente
 	int token;
 	if(argc == 1){
 		yylex();
 		return 0;
 	}
 
-	//Verifica a quantidade de parametros que foram passados pra 'main'
+	//Caso hajam dois, o segundo parametro sera o nome do arquivo que os ados serão lidos
 	if(argc >= 2){
 
 		yyin = fopen(argv[1], "r");
 		yyout = fopen("streamDeTokens.txt", "w");
 
-	}else{
+	}else{//Caso contrario o programa é encerrado
 
 		printf("\nParametros Insuficientes!\n");
 		return 0;
@@ -103,63 +114,19 @@ int main(int argc, char* argv[]){
 
 	}else if(yyout = NULL){//Arquivo de entrada valido e saida invalido. Só é mostrado o resultado na tela
 
-		printf("\nNao é possivel criar o arquivo de saida.\nO resultado SO sera exibido na tela\n");
-		while( yylex() != EndOfFile);
+		yylex();
+		return 0;
 	}
 
-	//Arquivos de entrada e saida validos
+	//Arquivos de entrada e saida validos, começa a leitura.
 
 	do{
 		switch( token = yylex() ){
-
-			case STRING:
-				printf("Palavra Reservada = string\n");
-				break;
-
-			case INT:
-				printf("Palavra Reservada = int\n");
-				break;
-
-			case ELSE:
-				printf("Palavra Reservada = else\n");
-				break;
-
-			case IF:
-				printf("Palavra Reservada = if\n");
-				break;
-
-			case RETURN:
-				printf("Palavra Reservada = return\n");
-				break;
-
-			case VOID:
-				printf("Palavra Reservada = void\n");
-				break;
-
-			case WHILE:
-				printf("Palavra Reservada = while\n");
-				break;
-
-			case ID:
-				printf("ID = %s\n",yytext);
-				break;
-
-			case EndOfFile:
-				printf("\nEnd Of File\n");
-				break;
-
 
 		}
 
 	}while(token != EndOfFile);
 
-	fflush(yyout);
-
-	fclose(yyout);
-
-	/*
-	//Força o salvamento os arquivos em disco
-	
 
 	//Se tiver algum arquivo aberto ele sera fechado
 	if(yyout != NULL){
@@ -168,22 +135,9 @@ int main(int argc, char* argv[]){
 	if(yyin != NULL){
 		fclose(yyin);
 	}
-	*/
 
 	return 0;
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
