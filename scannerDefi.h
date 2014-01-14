@@ -33,3 +33,6 @@
 #define FECHA_CHAVE 28
 #define BARRA_ASTERISCO 29
 #define ASTERISCO_BARRA 30
+
+//Extras
+#define EndOfFile 31
