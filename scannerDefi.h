@@ -1,9 +1,9 @@
 //Definicoes Lexicas
 #define ID 1
 #define NUM 2
-#define STRING 3
 
 //Palavras reservadas
+#define STRING 3
 #define ELSE 4
 #define	IF 5
 #define	INT 6
@@ -35,4 +35,5 @@
 #define ASTERISCO_BARRA 30
 
 //Extras
-#define EndOfFile 31
+#define CADEIA_STRING 31
+#define EndOfFile 32
