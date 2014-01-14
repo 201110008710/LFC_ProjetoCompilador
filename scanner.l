@@ -8,18 +8,78 @@ DIGITO [0-9]
 
 %%
 
-{LETRA}{LETRA}*							return ID;
-
-{DIGITO}{DIGITO}*						return NUM;
-
-
 <<EOF>>									return EndOfFile;
 
+"string"								return STRING;
+
+"else"									return ELSE;
+
+"if"									return IF;
+
+"int" 									return INT;
+										
+"return"								return RETURN;
+										
+"void"									return VOID;
+										
+"while"									return WHILE;
+
+"+"										return MAIS;
+
+"-"										return MENOS;
+
+"*"										return ASTERISCO;
+
+"/"										return BARRA;
+
+"<"										return MENOR;
+
+"<="									return MENOR_IGUAL;
+
+">"										return MAIOR;
+
+">="									return MAIOR_IGUAL;
+
+"=="									return IGUAL_IGUAL;
+
+"!="									return DIFERENTE;
+
+"="										return IGUAL;
+
+";"										return PONTO_E_VIRGULA;
+
+","										return VIRGULA;
+
+"("										return ABRE_PARENTESE;
+
+")"										return FECHA_PARENTESE;
+
+"["										return ABRE_COLCHETE;
+
+"]"										return FECHA_COLCHETE;
+
+"{"										return ABRE_CHAVE;
+
+"}"										return FECHA_CHAVE;
+
+"/*"									return BARRA_ASTERISCO;
+
+"*/"									return ASTERISCO_BARRA;
+
+
+{LETRA}{LETRA}*							return ID;
+
+
 .|\n|\r
+
 %%
 int main(int argc, char* argv[]){
 
 	int token;
+	if(argc == 1){
+		yylex();
+		return 0;
+	}
 
 	//Verifica a quantidade de parametros que foram passados pra 'main'
 	if(argc >= 2){
@@ -52,12 +112,36 @@ int main(int argc, char* argv[]){
 	do{
 		switch( token = yylex() ){
 
-			case ID:
-				printf("ID = %s\n",yytext);
+			case STRING:
+				printf("Palavra Reservada = string\n");
 				break;
 
-			case NUM:
-				printf("NUM = %s\n",yytext);
+			case INT:
+				printf("Palavra Reservada = int\n");
+				break;
+
+			case ELSE:
+				printf("Palavra Reservada = else\n");
+				break;
+
+			case IF:
+				printf("Palavra Reservada = if\n");
+				break;
+
+			case RETURN:
+				printf("Palavra Reservada = return\n");
+				break;
+
+			case VOID:
+				printf("Palavra Reservada = void\n");
+				break;
+
+			case WHILE:
+				printf("Palavra Reservada = while\n");
+				break;
+
+			case ID:
+				printf("ID = %s\n",yytext);
 				break;
 
 			case EndOfFile:
@@ -68,6 +152,10 @@ int main(int argc, char* argv[]){
 		}
 
 	}while(token != EndOfFile);
+
+	fflush(yyout);
+
+	fclose(yyout);
 
 	/*
 	//Força o salvamento os arquivos em disco
