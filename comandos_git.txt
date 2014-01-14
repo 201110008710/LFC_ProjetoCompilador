@@ -1,5 +1,21 @@
 
-
+//Pega o repositorio GIT do GitHub
 git clone https://github.com/Elwyslan/LFC_AnalisadorLexico.git 
 
+//Lista os repositorios disponíveis
+git remote -v
+
+//Indica se houve alguma modificação em algum arquivo
+git status
+
+//Adiciona o arquivo na area de Stage
+git add nomeDoArquivo
+
+//Coloca o arquivo no repositorio
+git commit -m "comentario"
+
+//Upa as mudanças para o GitHub
+git push origin master
+
+//Lista repositorios GIT remotos que foram baixados
 git remote -v
