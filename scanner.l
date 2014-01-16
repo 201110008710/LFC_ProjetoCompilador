@@ -11,71 +11,105 @@ DIGITO [0-9]
 
 <<EOF>>									{printf("\n\nEnd of file\n\n"); return 0;}
 
-["string"]{6}							printf("=> Palavra Reservada : 'string'\n");
+"string"								printf("=> Palavra Reservada ----------- string\n");
 
-"else"									printf("=> Palavra Reservada : 'else'\n");
+"else"									printf("=> Palavra Reservada ----------- else\n");
 
-"if"									printf("=> Palavra Reservada : 'if'\n");
+"if"									printf("=> Palavra Reservada ----------- if\n");
 
-"int" 									printf("=> Palavra Reservada : 'int'\n");
+"int" 									printf("=> Palavra Reservada ----------- int\n");
 										
-"return"								printf("=> Palavra Reservada : 'return'\n");
+"return"								printf("=> Palavra Reservada ----------- return\n");
 										
-"void"									printf("=> Palavra Reservada : 'void'\n");
+"void"									printf("=> Palavra Reservada ----------- void\n");
 										
-"while"									printf("=> Palavra Reservada : 'while'\n");
+"while"									printf("=> Palavra Reservada ----------- while\n");
 
-"+"										printf("=> Caractere especial : '+'\n");
+"+"										printf("=> Caractere especial ---------- +\n");
 
-"-"										printf("=> Caractere especial : '-'\n");
+"-"										printf("=> Caractere especial ---------- -\n");
 
-"*"										printf("=> Caractere especial : '*'\n");
+"*"										printf("=> Caractere especial ---------- *\n");
 
-"/"										printf("=> Caractere especial : '/'\n");
+"/"										printf("=> Caractere especial ---------- /\n");
 
-"<"										printf("=> Caractere especial : '<'\n");
+"<"										printf("=> Caractere especial ---------- <\n");
 
-"<="									printf("=> Caractere especial : '<='\n");
+"<="									printf("=> Caractere especial ---------- <=\n");
 
-">"										printf("=> Caractere especial : '>'\n");
+">"										printf("=> Caractere especial ---------- >\n");
 
-">="									printf("=> Caractere especial : '>='\n");
+">="									printf("=> Caractere especial ---------- >=\n");
 
-"=="									printf("=> Caractere especial : '=='\n");
+"=="									printf("=> Caractere especial ---------- ==\n");
 
-"!="									printf("=> Caractere especial : '!='\n");
+"!="									printf("=> Caractere especial ---------- !=\n");
 
-"="										printf("=> Caractere especial : '='\n");
+"="										printf("=> Caractere especial ---------- =\n");
 
-";"										printf("=> Caractere especial : ';'\n");
+";"										printf("=> Caractere especial ---------- ;\n");
 
-","										printf("=> Caractere especial : ','\n");
+","										printf("=> Caractere especial ---------- ,\n");
 
-"("										printf("=> Caractere especial : '('\n");
+"("										printf("=> Caractere especial ---------- (\n");
 
-")"										printf("=> Caractere especial : ')'\n");
+")"										printf("=> Caractere especial ---------- )\n");
 
-"["										printf("=> Caractere especial : '['\n");
+"["										printf("=> Caractere especial ---------- [\n");
 
-"]"										printf("=> Caractere especial : ']'\n");
+"]"										printf("=> Caractere especial ---------- ]\n");
 
-"{"										printf("=> Caractere especial : '{'\n");
+"{"										printf("=> Caractere especial ---------- {\n");
 
-"}"										printf("=> Caractere especial : '}'\n");
-
-
-{LETRA}{LETRA}*							printf("=> ID : '%s'\n",yytext);
-
-{DIGITO}{DIGITO}*						printf("=> Digito : '%s'\n",yytext);
-
-{DIGITO}{DIGITO}*{LETRA}{LETRA}*					printf("=> Indentificador Invalido : '%s'\n",yytext);
-{LETRA}{LETRA}*{DIGITO}{DIGITO}*					printf("=> Indentificador Invalido : '%s'\n",yytext);
-{LETRA}{LETRA}*{DIGITO}{DIGITO}*{LETRA}{LETRA}*		printf("=> Indentificador Invalido : '%s'\n",yytext);
-
-["][^"]*["]								printf("=> Cadeia String : '%s'\n",yytext);
+"}"										printf("=> Caractere especial ---------- }\n");
 
 
-"/*"([^*]|[*]|[^/])*[*]+[/$]				printf("=> Comentario : '%s'\n",yytext);
+{LETRA}{LETRA}*							printf("=> ID -------------------------- %s\n",yytext);
+
+{DIGITO}{DIGITO}*						printf("=> Digito ---------------------- %s\n",yytext);
+
+
+{LETRA}{LETRA}*{DIGITO}{DIGITO}*					printf("=> Indentificador Invalido ----- %s\n",yytext);
+{LETRA}{LETRA}*{DIGITO}{DIGITO}*{LETRA}{LETRA}*		printf("=> Indentificador Invalido ----- %s\n",yytext);
+
+["][^"]*["]								printf("=> Cadeia String --------------- %s\n",yytext);
+
+
+"/*"									{
+											char c;
+											int numComents = 1;
+											int done = FALSE;
+											printf("=> Comentario ------------------ ");
+											ECHO;
+
+											do{
+												while( (c=input()) != '*')
+													putchar(c);
+
+												putchar(c);
+
+												if(c == '/'){
+													putchar(c);
+													c = input();
+													if(c == '*')
+														putchar(c);
+
+												}
+
+												while( (c=input()) == '*')
+													putchar(c);
+
+												putchar(c);
+
+												if(c=='/'){
+													if((c=input()) == '\n')
+													done = TRUE;
+												}
+
+											}while(!done);
+
+											printf("\n");
+										}
 
 
 .|\n|\r
