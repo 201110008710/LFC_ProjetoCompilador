@@ -94,7 +94,52 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 {LETRA}{DIGITO}{LETRA}								printf("=> Indentificador Invalido ----- %s\n\n",yytext);
 
 
-["][^"]*["]								printf("=> Cadeia String --------------- %s\n\n",yytext);
+["]										{
+											char Q;
+											char Qaux;
+											char *str;
+											int strlen;
+											int numAspas = 1;
+
+											str = (char*) malloc(sizeof(char));
+											strlen = 0;
+
+											do{
+												Q = input();
+
+												if(Q == '\\'){
+													
+													strlen++;
+													str = (char*) realloc(str, strlen*sizeof(char));
+													str[strlen-1] = Q;
+
+													Qaux = input();
+													if(Qaux == '"' || Qaux == 't'){
+														strlen++;
+														str = (char*) realloc(str, strlen*sizeof(char));
+														str[strlen-1] = Qaux;
+														continue;
+													}
+
+												}
+
+												strlen++;
+												str = (char*) realloc(str, strlen*sizeof(char));
+												str[strlen-1] = Q;
+
+											}while(Q != '\n' && Q != EOF && Q != '"');
+
+											if(Q == '\n'|| Q == EOF){
+												putchar(str[strlen-1]);
+												str[strlen-1] = 0;
+												printf("=> Cadeia de String invalida --- \"%s",str);
+											}
+											if(Q == '"'){
+												printf("Cadeia de String --------------- \"%s",str);
+											}
+											printf("\n\n");
+
+										}
 
 
 "/*"									{
