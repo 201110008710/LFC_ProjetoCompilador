@@ -100,6 +100,7 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 											char *str;
 											int strlen;
 											int numAspas = 1;
+											int escapeInvalido = 0;
 
 											str = (char*) malloc(sizeof(char));
 											strlen = 0;
@@ -114,11 +115,18 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 													str[strlen-1] = Q;
 
 													Qaux = input();
+													strlen++;
+													str = (char*) realloc(str, strlen*sizeof(char));
+													str[strlen-1] = Qaux;
+													
 													if(Qaux == '"' || Qaux == 't'){
-														strlen++;
-														str = (char*) realloc(str, strlen*sizeof(char));
-														str[strlen-1] = Qaux;
+														
 														continue;
+													}else{
+
+														escapeInvalido = 1;
+														continue;
+
 													}
 
 												}
@@ -129,13 +137,12 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 
 											}while(Q != '\n' && Q != EOF && Q != '"');
 
-											if(Q == '\n'|| Q == EOF){
-												putchar(str[strlen-1]);
+											if(Q == '\n'|| Q == EOF || escapeInvalido){
 												str[strlen-1] = 0;
 												printf("=> Cadeia de String invalida --- \"%s",str);
 											}
-											if(Q == '"'){
-												printf("Cadeia de String --------------- \"%s",str);
+											if(Q == '"' && !escapeInvalido){
+												printf("=> Cadeia de String ------------ \"%s",str);
 											}
 											printf("\n\n");
 
