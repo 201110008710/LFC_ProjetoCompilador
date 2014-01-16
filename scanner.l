@@ -1,5 +1,6 @@
 %option nostdinit noyywrap
 	#include <stdio.h>
+	#include <stdlib.h>
 	#include <string.h>
 	#include "scannerDefi.h"
 
@@ -97,37 +98,73 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 
 
 "/*"									{
-											char c;
-											int numComents = 1;
-											int done = FALSE;
-											printf("=> Comentario ------------------ ");
-											ECHO;
+											char *cmt;
+											char Qaux;
+											char Q;
+											int escapeInvalido = 0;
+											int numComents = 1;//Abriu um comentario
+											int lenCmt = 0;
+											cmt = (char*)malloc(sizeof(char));
+											
 
 											do{
-												while( (c=input()) != '*')
-													putchar(c);
+												Q = input();
 
-												putchar(c);
-
-												if(c == '/'){
-													putchar(c);
-													c = input();
-													if(c == '*')
-														putchar(c);
-
+												while(Q != '*' && Q != '/' && Q != '\\' && Q != EOF){
+													lenCmt++;
+													cmt = (char*) realloc(cmt, lenCmt*sizeof(char));
+													cmt[lenCmt-1] = Q;
+													Q = input();
 												}
 
-												while( (c=input()) == '*')
-													putchar(c);
+												lenCmt++;
+												cmt = (char*) realloc(cmt, lenCmt*sizeof(char));
+												cmt[lenCmt-1] = Q;
 
-												putchar(c);
+												Qaux = input();
 
-												if(c=='/'){
-													if((c=input()) == '\n')
-													done = TRUE;
+												if(Q == '\\'){
+													if(Qaux != 'r' || Qaux != 't' || Qaux != 'n'){
+														escapeInvalido = 1;
+													}
 												}
 
-											}while(!done);
+												if(Q=='*' && Qaux == '/'){
+													lenCmt++;
+													cmt = (char*) realloc(cmt, lenCmt*sizeof(char));
+													cmt[lenCmt-1] = Qaux;
+													numComents--;
+												}
+
+												if(Q == '/' && Qaux == '*'){
+													lenCmt++;
+													cmt = (char*) realloc(cmt, lenCmt*sizeof(char));
+													cmt[lenCmt-1] = Qaux;
+													numComents++;
+													continue;
+												}
+
+												while(Qaux == '*'){
+													lenCmt++;
+													cmt = (char*) realloc(cmt, lenCmt*sizeof(char));
+													cmt[lenCmt-1] = Qaux;
+													Qaux = input();
+												}
+
+
+
+
+											}while(Q != EOF && numComents != 0);
+
+											if(Q == EOF || numComents != 0 || escapeInvalido){
+												cmt[lenCmt-1] = 0;
+												printf("=> Comentario Invalido --------- /*%s",cmt);
+											
+											}else if(numComents == 0){
+
+												printf("=> Comentario ------------------ /*%s",cmt);
+
+											}
 
 											printf("\n\n");
 										}
@@ -190,6 +227,47 @@ int main(int argc, char* argv[]){
 	if(yyin != NULL){
 		fclose(yyin);
 	}
+	/*
+
+	{
+											char c;
+											char Qa;
+											char Q;
+											int numComents = 1;
+											int done = FALSE;
+											printf("=> Comentario ------------------ ");
+											ECHO;
+
+											do{
+												while( (c=input()) != '*')
+													putchar(c);
+
+												putchar(c);
+
+												if(c == '/'){
+													putchar(c);
+													c = input();
+													if(c == '*')
+														putchar(c);
+
+												}
+
+												while( (c=input()) == '*')
+													putchar(c);
+
+												putchar(c);
+
+												if(c=='/'){
+													if((c=input()) == '\n')
+													done = TRUE;
+												}
+
+											}while(!done);
+
+											printf("\n\n");
+										}
+
+	*/
 
 	return 0;
 
