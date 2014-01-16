@@ -3,76 +3,97 @@
 	#include <string.h>
 	#include "scannerDefi.h"
 
-LETRA [a-zA-Z]
+LETRA [a-zA-Z][a-zA-Z]*
 
-DIGITO [0-9]
+DIGITO [0-9][0-9]*
+
+SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 
 %%
 
 <<EOF>>									{printf("\n\nEnd of file\n\n"); return 0;}
 
-"string"								printf("=> Palavra Reservada ----------- string\n");
+"string"								printf("=> Palavra Reservada ----------- string\n\n");
 
-"else"									printf("=> Palavra Reservada ----------- else\n");
+"else"									printf("=> Palavra Reservada ----------- else\n\n");
 
-"if"									printf("=> Palavra Reservada ----------- if\n");
+"if"									printf("=> Palavra Reservada ----------- if\n\n");
 
-"int" 									printf("=> Palavra Reservada ----------- int\n");
+"int" 									printf("=> Palavra Reservada ----------- int\n\n");
 										
-"return"								printf("=> Palavra Reservada ----------- return\n");
+"return"								printf("=> Palavra Reservada ----------- return\n\n");
 										
-"void"									printf("=> Palavra Reservada ----------- void\n");
+"void"									printf("=> Palavra Reservada ----------- void\n\n");
 										
-"while"									printf("=> Palavra Reservada ----------- while\n");
+"while"									printf("=> Palavra Reservada ----------- while\n\n");
 
-"+"										printf("=> Caractere especial ---------- +\n");
+"+"										printf("=> Caractere especial ---------- +\n\n");
 
-"-"										printf("=> Caractere especial ---------- -\n");
+"-"										printf("=> Caractere especial ---------- -\n\n");
 
-"*"										printf("=> Caractere especial ---------- *\n");
+"*"										printf("=> Caractere especial ---------- *\n\n");
 
-"/"										printf("=> Caractere especial ---------- /\n");
+"/"										printf("=> Caractere especial ---------- /\n\n");
 
-"<"										printf("=> Caractere especial ---------- <\n");
+"<"										printf("=> Caractere especial ---------- <\n\n");
 
-"<="									printf("=> Caractere especial ---------- <=\n");
+"<="									printf("=> Caractere especial ---------- <=\n\n");
 
-">"										printf("=> Caractere especial ---------- >\n");
+">"										printf("=> Caractere especial ---------- >\n\n");
 
-">="									printf("=> Caractere especial ---------- >=\n");
+">="									printf("=> Caractere especial ---------- >=\n\n");
 
-"=="									printf("=> Caractere especial ---------- ==\n");
+"=="									printf("=> Caractere especial ---------- ==\n\n");
 
-"!="									printf("=> Caractere especial ---------- !=\n");
+"!="									printf("=> Caractere especial ---------- !=\n\n");
 
-"="										printf("=> Caractere especial ---------- =\n");
+"="										printf("=> Caractere especial ---------- =\n\n");
 
-";"										printf("=> Caractere especial ---------- ;\n");
+";"										printf("=> Caractere especial ---------- ;\n\n");
 
-","										printf("=> Caractere especial ---------- ,\n");
+","										printf("=> Caractere especial ---------- ,\n\n");
 
-"("										printf("=> Caractere especial ---------- (\n");
+"("										printf("=> Caractere especial ---------- (\n\n");
 
-")"										printf("=> Caractere especial ---------- )\n");
+")"										printf("=> Caractere especial ---------- )\n\n");
 
-"["										printf("=> Caractere especial ---------- [\n");
+"["										printf("=> Caractere especial ---------- [\n\n");
 
-"]"										printf("=> Caractere especial ---------- ]\n");
+"]"										printf("=> Caractere especial ---------- ]\n\n");
 
-"{"										printf("=> Caractere especial ---------- {\n");
+"{"										printf("=> Caractere especial ---------- {\n\n");
 
-"}"										printf("=> Caractere especial ---------- }\n");
-
-
-{LETRA}{LETRA}*							printf("=> ID -------------------------- %s\n",yytext);
-
-{DIGITO}{DIGITO}*						printf("=> Digito ---------------------- %s\n",yytext);
+"}"										printf("=> Caractere especial ---------- }\n\n");
 
 
-{LETRA}{LETRA}*{DIGITO}{DIGITO}*					printf("=> Indentificador Invalido ----- %s\n",yytext);
-{LETRA}{LETRA}*{DIGITO}{DIGITO}*{LETRA}{LETRA}*		printf("=> Indentificador Invalido ----- %s\n",yytext);
+{LETRA}									printf("=> ID -------------------------- %s\n\n",yytext);
 
-["][^"]*["]								printf("=> Cadeia String --------------- %s\n",yytext);
+{DIGITO}								printf("=> Digito ---------------------- %s\n\n",yytext);
+
+{SIMBOLOINV}							printf("=> Simbolo Invalido ------------ %s\n\n",yytext);
+
+
+{SIMBOLOINV}{LETRA}{DIGITO}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{SIMBOLOINV}{DIGITO}{LETRA}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+{LETRA}{DIGITO}{SIMBOLOINV}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{DIGITO}{LETRA}{SIMBOLOINV}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+{SIMBOLOINV}{LETRA}{DIGITO}{SIMBOLOINV}				printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{SIMBOLOINV}{DIGITO}{LETRA}{SIMBOLOINV}				printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+{LETRA}{SIMBOLOINV}{DIGITO}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{DIGITO}{SIMBOLOINV}{LETRA}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+{LETRA}{SIMBOLOINV}{LETRA}							printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{DIGITO}{SIMBOLOINV}{DIGITO}						printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+{LETRA}{DIGITO}										printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{DIGITO}{LETRA}										printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+{LETRA}{DIGITO}{LETRA}								printf("=> Indentificador Invalido ----- %s\n\n",yytext);
+
+
+["][^"]*["]								printf("=> Cadeia String --------------- %s\n\n",yytext);
 
 
 "/*"									{
@@ -108,7 +129,7 @@ DIGITO [0-9]
 
 											}while(!done);
 
-											printf("\n");
+											printf("\n\n");
 										}
 
 
