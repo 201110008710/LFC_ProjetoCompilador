@@ -1,0 +1,47 @@
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- variavel
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- string
+
+=> ID -------------------------- test
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- main
+
+=> Caractere especial ---------- (
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> Comentario ------------------ /*erro léxico na string abaixo*/
+
+=> ID -------------------------- test
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String invalida --- "uma string 
+
+=> ID -------------------------- qualquer
+
+=> Cadeia de String invalida --- ";
+
+=> Comentario ------------------ /*erro sintático a seguir, mas nenhum erro léxico*/
+
+=> ID -------------------------- variavel
+
+=> Comentario ------------------ /*e só pra /*constar*/ comentários assim são válidos.
+	A falta do return também não é um erro léxico*/
+
+=> Caractere especial ---------- }
+
+
+
+End of file
+

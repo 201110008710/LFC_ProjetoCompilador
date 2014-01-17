@@ -1,0 +1,92 @@
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- string
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- func
+
+=> Caractere especial ---------- (
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> Comentario ------------------ /*aqui uma string não fechada causa um erro até as próximas aspas ou fim de linha... tudo fica bagunçado*/
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String invalida --- "uma string dando trabalho
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- =
+
+=> Digito ---------------------- 27
+
+=> Caractere especial ---------- ;
+
+=> Comentario ------------------ /*a seguir, mais um erro semântico, nada de errado do ponto de vista sintático ou léxico.*/
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String ------------ "minha \t \" string"
+
+=> Caractere especial ---------- ;
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String ------------ "mais uma string não fechada; b = "
+
+=> ID -------------------------- aqui
+
+=> ID -------------------------- a
+
+=> ID -------------------------- gente
+
+=> ID -------------------------- vai
+
+=> ID -------------------------- ter
+
+=> ID -------------------------- um
+
+=> ID -------------------------- monte
+
+=> ID -------------------------- de
+
+=> ID -------------------------- identificadores
+
+=> ID -------------------------- perdidos
+
+=> ID -------------------------- por
+
+=> ID -------------------------- causa
+
+=> ID -------------------------- das
+
+=> ID -------------------------- aspas
+
+=> ID -------------------------- faltantes
+
+=> Cadeia de String invalida --- " /*e, por fim, uma string não fechada*/
+
+=> Caractere especial ---------- }
+
+
+
+End of file
+

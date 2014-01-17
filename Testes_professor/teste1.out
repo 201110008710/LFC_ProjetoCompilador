@@ -1,0 +1,58 @@
+=> Comentario ------------------ /*erro léxico no identificador abaixo*/
+
+=> Palavra Reservada ----------- int
+
+=> Indentificador Invalido ----- teste1
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- string
+
+=> ID -------------------------- var
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- main
+
+=> Caractere especial ---------- (
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> ID -------------------------- var
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String invalida --- "blabla blablabla \n
+
+=> Caractere especial ---------- ;
+
+=> ID -------------------------- printf
+
+=> Caractere especial ---------- (
+
+=> Cadeia de String ------------ "bla %s"
+
+=> Caractere especial ---------- ,
+
+=> ID -------------------------- var
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- return
+
+=> Digito ---------------------- 0
+
+=> Caractere especial ---------- ;
+
+=> Caractere especial ---------- }
+
+
+
+End of file
+

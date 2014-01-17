@@ -1,0 +1,68 @@
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- variavel
+
+=> Caractere especial ---------- [
+
+=> Digito ---------------------- 42
+
+=> Caractere especial ---------- ]
+
+=> Caractere especial ---------- ;
+
+=> Comentario ------------------ /*o identificador abaixo não é válido*/Q�
+
+=> Palavra Reservada ----------- int
+
+=> Indentificador Invalido ----- minha_var
+
+=> Caractere especial ---------- ;
+
+=> Comentario ------------------ /*abaixo temos um erro sintático, mas não léxico*/
+
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- main
+
+=> Caractere especial ---------- (
+
+=> Caractere especial ---------- {
+
+=> Comentario ------------------ /*a seguir, um erro semântico, mas nada de errado do ponto de vista léxico*/
+
+=> ID -------------------------- variavel
+
+=> Caractere especial ---------- =
+
+=> Digito ---------------------- 1234
+
+=> Caractere especial ---------- ;
+
+=> Comentario ------------------ /*agora a gente tem um erro léxico*/
+
+=> ID -------------------------- variavel
+
+=> Caractere especial ---------- =
+
+=> Indentificador Invalido ----- 12ab
+
+=> Caractere especial ---------- ;
+
+=> Comentario ------------------ /*e isso também é um erro léxico*/
+
+=> Indentificador Invalido ----- minha_var
+
+=> Caractere especial ---------- =
+
+=> Digito ---------------------- 12
+
+=> Caractere especial ---------- ;
+
+=> Comentario Invalido --------- /*e mais um erro léxico /*esquecendo de fechar um dos comentários*/
+	/*o mesmo vale para strings*/
+}
+
+
+
+End of file
+

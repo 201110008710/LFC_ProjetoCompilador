@@ -1,0 +1,118 @@
+=> Palavra Reservada ----------- int
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- =
+
+=> Digito ---------------------- 5
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- string
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- =
+
+=> Cadeia de String ------------ "bla"
+
+=> Caractere especial ---------- ;
+
+=> Palavra Reservada ----------- void
+
+=> ID -------------------------- main
+
+=> Caractere especial ---------- (
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> Comentario ------------------ /*vou fazer um exemplo lexicamente correto, com if e while só pra constar*/
+
+=> Palavra Reservada ----------- if
+
+=> Caractere especial ---------- (
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- >=
+
+=> Digito ---------------------- 2
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> ID -------------------------- fat
+
+=> Caractere especial ---------- (
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- ;
+
+=> Caractere especial ---------- }
+
+=> Palavra Reservada ----------- else
+
+=> Caractere especial ---------- {
+
+=> ID -------------------------- printf
+
+=> Caractere especial ---------- (
+
+=> Cadeia de String ------------ "%d"
+
+=> Caractere especial ---------- ,
+
+=> ID -------------------------- b
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- ;
+
+=> Caractere especial ---------- }
+
+=> Palavra Reservada ----------- while
+
+=> Caractere especial ---------- (
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- >
+
+=> Digito ---------------------- 1
+
+=> Caractere especial ---------- )
+
+=> Caractere especial ---------- {
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- =
+
+=> ID -------------------------- a
+
+=> Caractere especial ---------- -
+
+=> Digito ---------------------- 1
+
+=> Caractere especial ---------- ;
+
+=> Caractere especial ---------- }
+
+=> Palavra Reservada ----------- return
+
+=> Caractere especial ---------- ;
+
+=> Caractere especial ---------- }
+
+=> Comentario ------------------ /*À medida que eu for vendo os erros nos programas de vocês eu vou criando novos testes*/�
+
+
+
+End of file
+
