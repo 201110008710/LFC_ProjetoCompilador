@@ -1,0 +1,192 @@
+Gramática
+
+    0 $accept: S $end
+
+    1 S: EXP
+
+    2 EXP: EXP SOMA TERMO
+    3    | TERMO
+
+    4 TERMO: TERMO MULT FATOR
+    5      | FATOR
+
+    6 SOMA: MAIS
+    7     | MENOS
+
+    8 FATOR: ABREPARENTESIS EXP FECHAPARENTESIS
+    9      | NUMERO
+
+
+Terminais, com as regras onde eles aparecem
+
+$end (0) 0
+error (256)
+ABREPARENTESIS (258) 8
+FECHAPARENTESIS (259) 8
+MULT (260) 4
+MAIS (261) 6
+MENOS (262) 7
+NUMERO (263) 9
+
+
+Não-terminais com as regras onde eles aparecem
+
+$accept (9)
+    à esquerda: 0
+S (10)
+    à esquerda: 1, à direita: 0
+EXP (11)
+    à esquerda: 2 3, à direita: 1 2 8
+TERMO (12)
+    à esquerda: 4 5, à direita: 2 3 4
+SOMA (13)
+    à esquerda: 6 7, à direita: 2
+FATOR (14)
+    à esquerda: 8 9, à direita: 4 5
+
+
+State 0
+
+    0 $accept: . S $end
+
+    ABREPARENTESIS  deslocar, e ir ao estado 1
+    NUMERO          deslocar, e ir ao estado 2
+
+    S      ir ao estado 3
+    EXP    ir ao estado 4
+    TERMO  ir ao estado 5
+    FATOR  ir ao estado 6
+
+
+State 1
+
+    8 FATOR: ABREPARENTESIS . EXP FECHAPARENTESIS
+
+    ABREPARENTESIS  deslocar, e ir ao estado 1
+    NUMERO          deslocar, e ir ao estado 2
+
+    EXP    ir ao estado 7
+    TERMO  ir ao estado 5
+    FATOR  ir ao estado 6
+
+
+State 2
+
+    9 FATOR: NUMERO .
+
+    $padrão  reduzir usando a regra 9 (FATOR)
+
+
+State 3
+
+    0 $accept: S . $end
+
+    $end  deslocar, e ir ao estado 8
+
+
+State 4
+
+    1 S: EXP .
+    2 EXP: EXP . SOMA TERMO
+
+    MAIS   deslocar, e ir ao estado 9
+    MENOS  deslocar, e ir ao estado 10
+
+    $padrão  reduzir usando a regra 1 (S)
+
+    SOMA  ir ao estado 11
+
+
+State 5
+
+    3 EXP: TERMO .
+    4 TERMO: TERMO . MULT FATOR
+
+    MULT  deslocar, e ir ao estado 12
+
+    $padrão  reduzir usando a regra 3 (EXP)
+
+
+State 6
+
+    5 TERMO: FATOR .
+
+    $padrão  reduzir usando a regra 5 (TERMO)
+
+
+State 7
+
+    2 EXP: EXP . SOMA TERMO
+    8 FATOR: ABREPARENTESIS EXP . FECHAPARENTESIS
+
+    FECHAPARENTESIS  deslocar, e ir ao estado 13
+    MAIS             deslocar, e ir ao estado 9
+    MENOS            deslocar, e ir ao estado 10
+
+    SOMA  ir ao estado 11
+
+
+State 8
+
+    0 $accept: S $end .
+
+    $padrão  aceitar
+
+
+State 9
+
+    6 SOMA: MAIS .
+
+    $padrão  reduzir usando a regra 6 (SOMA)
+
+
+State 10
+
+    7 SOMA: MENOS .
+
+    $padrão  reduzir usando a regra 7 (SOMA)
+
+
+State 11
+
+    2 EXP: EXP SOMA . TERMO
+
+    ABREPARENTESIS  deslocar, e ir ao estado 1
+    NUMERO          deslocar, e ir ao estado 2
+
+    TERMO  ir ao estado 14
+    FATOR  ir ao estado 6
+
+
+State 12
+
+    4 TERMO: TERMO MULT . FATOR
+
+    ABREPARENTESIS  deslocar, e ir ao estado 1
+    NUMERO          deslocar, e ir ao estado 2
+
+    FATOR  ir ao estado 15
+
+
+State 13
+
+    8 FATOR: ABREPARENTESIS EXP FECHAPARENTESIS .
+
+    $padrão  reduzir usando a regra 8 (FATOR)
+
+
+State 14
+
+    2 EXP: EXP SOMA TERMO .
+    4 TERMO: TERMO . MULT FATOR
+
+    MULT  deslocar, e ir ao estado 12
+
+    $padrão  reduzir usando a regra 2 (EXP)
+
+
+State 15
+
+    4 TERMO: TERMO MULT FATOR .
+
+    $padrão  reduzir usando a regra 4 (TERMO)
