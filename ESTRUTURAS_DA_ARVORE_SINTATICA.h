@@ -744,6 +744,7 @@ ARG_LISTA producao_argLista__exp(EXPRESSAO expr);
 struct VAZIO{
 
 };
+VAZIO producao_vazio__();
 
 
 #endif
