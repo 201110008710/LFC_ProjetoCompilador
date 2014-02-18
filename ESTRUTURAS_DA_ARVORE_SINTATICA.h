@@ -677,13 +677,13 @@ struct FATOR{
 		ATIVACAO ativacao;
 
 		int numero;
-	}
+	} uniao;
 
 };
 //Funcoes para gerar o NO 'FATOR'
 FATOR producao_fator__abrP_exp_fecP(EXPRESSAO expressao);
-FATOR producao_fator__var(VAR variavel);
-FATOR producao_fator__ativacao(ATIVACAO ativacao);
+FATOR producao_fator__var(VAR var);
+FATOR producao_fator__ativacao(ATIVACAO ativ);
 FATOR producao_fator__numero(int num);
 
 
@@ -723,18 +723,22 @@ struct ARG_LISTA{
 
 	union{
 
-		ARG_LISTA listaArgumentos;
+		struct{
 
+			ARG_LISTA listaArgumentos;
+
+			EXPRESSAO expressao;
+
+		} estrutura;
+		
 		EXPRESSAO expressao;
-
-	};
-
-	EXPRESSAO expressao;
+		
+	}uniao;
 
 };
 //Funcoes para gerar o NO 'ARG_LISTA'
 ARG_LISTA producao_argLista__argLista_pontoVirgula_exp(ARG_LISTA listaArgumentos, EXPRESSAO expressao);
-ARG_LISTA producao_argLista__exp(EXPRESSAO expressao);
+ARG_LISTA producao_argLista__exp(EXPRESSAO expr);
 
 //Definicao da producao vazia
 struct VAZIO{
