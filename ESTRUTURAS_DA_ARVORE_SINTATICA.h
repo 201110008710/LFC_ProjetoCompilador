@@ -82,7 +82,7 @@ PROGRAMA producao_programa__declaracaoLista(DECLARACAO_LISTA declLista);
 //02. DECLARACAO-LISTA -> DECLARACAO-LISTA DECLARACAO | DECLARACAO
 struct DECLARACAO_LISTA{
 
-	enum{declLista_decl, declaracao} producaoEscolhida;
+	enum{declLista_decl, decl} producaoEscolhida;
 
 	union{
 
@@ -128,7 +128,7 @@ DECLARACAO producao_declaracao__funDeclaracao(FUN_DECLARACAO funDecl);
 //04. VAR-DECLARACAO -> TIPO-ESPECIFICADOR id ; | TIPO-ESPECIFICADOR id [ numero ];
 struct VAR_DECLARACAO{
 
-	enum{tipo_espec_id, tipo_espec_id_abreColNumFechaCol} producaoEscolhida;
+	enum{tipoespec_id, tipoespec_id_abreColNumFechaCol} producaoEscolhida;
 
 	union{
 
@@ -202,7 +202,7 @@ FUN_DECLARACAO producao_funDecl(TIPO_ESPECIFICADOR tipoEspec, string id,PARAMS p
 //07. PARAMS -> PARAM-LISTA | void
 struct PARAMS {
 
-	enum{param_lista, tipoVOID} producaoEscolhida;
+	enum{paramlista, tipoVOID} producaoEscolhida;
 
 	union{
 
