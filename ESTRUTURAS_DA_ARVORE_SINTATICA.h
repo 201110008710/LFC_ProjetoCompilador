@@ -475,9 +475,9 @@ struct EXPRESSAO{
 
 			VAR var;
 
-			EXPRESSAO esxpressao;
+			EXPRESSAO expressao;
 
-		} estrutura_Prod1;
+		} estrutura;
 
 		SIMPLES_EXPRESSAO simplesExpressao;
 
@@ -533,7 +533,7 @@ struct SIMPLES_EXPRESSAO{
 
 		} estrutura;
 
-		SOMA_EXPRESSAO somaexp;
+		SOMA_EXPRESSAO somaExp;
 
 	} uniao;
 
@@ -591,7 +591,7 @@ struct SOMA_EXPRESSAO{
 };
 //Funcoes para gerar o NO 'SOMA_EXPRESSAO'
 SOMA_EXPRESSAO producao_somaExp__somaExp_soma_termo(SOMA_EXPRESSAO sumExp, SOMA soma, TERMO termo);
-SOMA_EXPRESSAO producao_somaExp__termo(TERMO termo);
+SOMA_EXPRESSAO producao_somaExp__termo(TERMO t);
 
 
 
@@ -630,7 +630,7 @@ struct TERMO{
 
 			FATOR fator;
 
-		} estrutura_Prod1;
+		} estrutura;
 
 		FATOR fator;
 	
@@ -639,7 +639,7 @@ struct TERMO{
 };
 //Funcoes para gerar o NO 'TERMO'
 TERMO producao_termo__termo_mult_fator(TERMO termo, MULT mult, FATOR fator);
-TERMO producao_termo__fator(FATOR fator);
+TERMO producao_termo__fator(FATOR f);
 
 
 
