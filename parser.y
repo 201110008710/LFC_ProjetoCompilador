@@ -61,7 +61,10 @@
   
   Ambiguidade do ELSE pendente:
   	-Regra de eliminação de ambiguidade do "aninhamento mais proximo"
-	
+
+################################################################################################
+
+  bison -v -d -o parser.c parser.y
 */
 
 #include "ESTRUTURAS_DA_ARVORE_SINTATICA.h"
@@ -72,6 +75,9 @@
 void yyerror(char *s);
 
 %}
+
+
+%expect 1
 
 %union{
 
@@ -187,9 +193,74 @@ void yyerror(char *s);
 
 %start PROGRAMA
 
+
+
 %%
 
+/* 01. PROGRAMA -> DECLARACAO-LISTA */
+PROGRAMA: DECLARACAO-LISTA {}
+;
 
+
+
+/* 02. DECLARACAO-LISTA -> DECLARACAO-LISTA DECLARACAO | DECLARACAO */
+DECLARACAO_LISTA :	DECLARACAO_LISTA DECLARACAO   {}
+					| DECLARACAO 				  {}
+  
+/* 03. DECLARACAO -> VAR-DECLARACAO | FUN-DECLARACAO */
+  
+/* 04. VAR-DECLARACAO -> TIPO-ESPECIFICADOR id ; | TIPO-ESPECIFICADOR id [ numero ]; */
+  
+/* 05. TIPO-ESPECIFICADOR -> int | void */
+  
+/* 06. FUN-DECLARACAO -> TIPO-ESPECIFICADOR id ( PARAMS) COMPOSTO-DECL */
+  
+/* 07. PARAMS -> PARAM-LISTA | void */
+  
+/* 08. PARAM-LISTA -> PARAM-LISTA,PARAM | PARAM */
+  
+/* 09. PARAM -> TIPO-ESPECIFICADOR id | TIPO-ESPECIFICADOR id [] */
+  
+/* 10. COMPOSTO-DECL -> { LOCAL-DECLARACOES STATEMENT-LISTA } */
+  
+/* 11. LOCAL-DECLARACOES -> LOCAL-DECLARACOES VAR-DECLARACAO | VAZIO */
+  
+/* 12. STATEMENT-LISTA -> STATEMENT-LISTA STATEMENT | VAZIO */
+  
+/* 13. STATEMENT -> EXPRESSAO-DECL | COMPOSTO-DECL | SELECAO-DECL | INTERACAO-DECL | RETORNO-DECL */
+  
+/* 14. EXPRESSAO-DECL -> EXPRESSAO ; | ; */
+  
+/* 15. SELECAO-DECL -> if( EXPRESSAO ) STATEMENT | if( EXPRESSAO ) STATEMENT else STATEMENT */
+  
+/* 16. INTERACAO-DECL -> while ( EXPRESSAO ) STATEMENT */
+  
+/* 17. RETORNO-DECL -> return ; | return EXPRESSAO ; */
+  
+/* 18. EXPRESSAO -> VAR = EXPRESSAO | SIMPLES-EXPRESSAO */
+  
+/* 19. VAR -> id | id [ EXPRESSAO ] */
+  
+/* 20. SIMPLES-EXPRESSAO -> SOMA-EXPRESSAO RELACIONAL SOMA-EXPRESSAO | SOMA-EXPRESSAO */
+  
+/* 21. RELACIONAL -> <= | < | > | >= | == | != */
+  
+/* 22. SOMA-EXPRESSAO -> SOMA-EXPRESSAO SOMA TERMO | TERMO */
+  
+/* 23. SOMA -> + | - */
+  
+/* 24. TERMO -> TERMO MULT FATOR | FATOR */
+  
+/* 25. MULT -> * | / */
+  
+/* 26. FATOR -> ( EXPRESSAO ) | VAR | ATIVACAO | numero */
+  
+/* 27. ATIVACAO -> id ( ARGS ) */
+  
+/* 28. ARGS -> ARG-LISTA | VAZIO */
+  
+/* 29. ARG-LISTA ->ARG-LISTA , EXPRESSAO | EXPRESSAO */
+  
 %%
 
 #include <stdlib.h>
@@ -206,7 +277,7 @@ main(){
 	//Se modoTeste = 1 a entrada e saida sao padroes
 	//Se modoTeste = 0, o programa devera receber um arquivo texto como entrada
 
-	int modoTeste = 1;
+	int modoTeste = 0;
   	int ret;
 
   	if(modoTeste){
