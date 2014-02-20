@@ -1,4 +1,4 @@
-%{ 
+%{  
 /* 
    ANALISADOR SINTÁTICO
 	
