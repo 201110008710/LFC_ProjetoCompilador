@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
-	#include "scannerDefi.h"
+	#include "parser_generateByBison.h"
 
 LETRA [a-zA-Z][a-zA-Z]*
 
@@ -12,64 +12,62 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 
 %%
 
-<<EOF>>									{printf("\n\nEnd of file\n\n"); return 0;}
+"string"								{ return STRING; }
 
-"string"								printf("=> Palavra Reservada ----------- string\n\n");
+"else"									{ return ELSE; }
 
-"else"									printf("=> Palavra Reservada ----------- else\n\n");
+"if"									{ return IF; }
 
-"if"									printf("=> Palavra Reservada ----------- if\n\n");
-
-"int" 									printf("=> Palavra Reservada ----------- int\n\n");
+"int" 									{ return INT; }
 										
-"return"								printf("=> Palavra Reservada ----------- return\n\n");
+"return"								{ return RETURN; }
 										
-"void"									printf("=> Palavra Reservada ----------- void\n\n");
+"void"									{ return VOID; }
 										
-"while"									printf("=> Palavra Reservada ----------- while\n\n");
+"while"									{ return WHILE; }
 
-"+"										printf("=> Caractere especial ---------- +\n\n");
+"+"										{ return MAIS; }
 
-"-"										printf("=> Caractere especial ---------- -\n\n");
+"-"										{ return MENOS; }
 
-"*"										printf("=> Caractere especial ---------- *\n\n");
+"*"										{ return VEZES; }
 
-"/"										printf("=> Caractere especial ---------- /\n\n");
+"/"										{ return BARRA; }
 
-"<"										printf("=> Caractere especial ---------- <\n\n");
+"<"										{ return MENOR; }
 
-"<="									printf("=> Caractere especial ---------- <=\n\n");
+"<="									{ return MENORIGUAL; }
 
-">"										printf("=> Caractere especial ---------- >\n\n");
+">"										{ return MAIOR; }
 
-">="									printf("=> Caractere especial ---------- >=\n\n");
+">="									{ return MAIORIGUAL; }
 
-"=="									printf("=> Caractere especial ---------- ==\n\n");
+"=="									{ return IGUALIGUAL; }
 
-"!="									printf("=> Caractere especial ---------- !=\n\n");
+"!="									{ return DIFERENTE; }
 
-"="										printf("=> Caractere especial ---------- =\n\n");
+"="										{ return IGUAL; }
 
-";"										printf("=> Caractere especial ---------- ;\n\n");
+";"										{ return PONTOVIRGULA; }
 
-","										printf("=> Caractere especial ---------- ,\n\n");
+","										{ return VIRGULA; }
 
-"("										printf("=> Caractere especial ---------- (\n\n");
+"("										{ return ABREPARENTESIS; }
 
-")"										printf("=> Caractere especial ---------- )\n\n");
+")"										{ return FECHAPARENTESIS; }
 
-"["										printf("=> Caractere especial ---------- [\n\n");
+"["										{ return ABRECOLCHETE; }
 
-"]"										printf("=> Caractere especial ---------- ]\n\n");
+"]"										{ return FECHACOLCHETE; }
 
-"{"										printf("=> Caractere especial ---------- {\n\n");
+"{"										{ return ABRECHAVE; }
 
-"}"										printf("=> Caractere especial ---------- }\n\n");
+"}"										{ return FECHACHAVE; }
 
 
-{LETRA}									printf("=> ID -------------------------- %s\n\n",yytext);
+{LETRA}									{ return ID; }
 
-{DIGITO}								printf("=> Digito ---------------------- %s\n\n",yytext);
+{DIGITO}								{ return DIGITO; }
 
 {SIMBOLOINV}							printf("=> Simbolo Invalido ------------ %s\n\n",yytext);
 
@@ -142,7 +140,7 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 												printf("=> Cadeia de String invalida --- \"%s",str);
 											}
 											if(Q == '"' && !escapeInvalido){
-												printf("=> Cadeia de String ------------ \"%s",str);
+												return CADEIASTRING;
 											}
 											printf("\n\n");
 
@@ -225,104 +223,3 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 .|\n|\r
 
 %%
-int main(int argc, char* argv[]){
-
-	//Verifica a quantidade de parametros que foram passados pra 'main'
-
-	//Caso não seja passado parametros o yylex() sera executado normalmente
-	int token;
-	if(argc == 1){
-		yylex();
-		return 0;
-	}
-
-	//Caso hajam dois, o segundo parametro sera o nome do arquivo que os ados serão lidos
-	if(argc >= 2){
-
-		yyin = fopen(argv[1], "r");
-		yyout = fopen("streamDeTokens.txt", "w");
-
-	}else{//Caso contrario o programa é encerrado
-
-		printf("\nParametros Insuficientes!\n");
-		return 0;
-
-	}
-
-
-	//Se o arquivo de entrada não puder ser lido o programa para a execução
-	if(yyin == NULL){
-
-		printf("\nErro na leitura do arquivo de entrada!\n");
-		return 0;
-
-	}else if(yyout = NULL){//Arquivo de entrada valido e saida invalido. Só é mostrado o resultado na tela
-
-		yylex();
-		return 0;
-	}
-
-	//Arquivos de entrada e saida validos, começa a leitura.
-
-	do{
-		switch( token = yylex() ){
-
-		}
-
-	}while(token != EndOfFile);
-
-
-	//Se tiver algum arquivo aberto ele sera fechado
-	if(yyout != NULL){
-		fclose(yyout);
-	}
-	if(yyin != NULL){
-		fclose(yyin);
-	}
-	/*
-
-	{
-											char c;
-											char Qa;
-											char Q;
-											int numComents = 1;
-											int done = FALSE;
-											printf("=> Comentario ------------------ ");
-											ECHO;
-
-											do{
-												while( (c=input()) != '*')
-													putchar(c);
-
-												putchar(c);
-
-												if(c == '/'){
-													putchar(c);
-													c = input();
-													if(c == '*')
-														putchar(c);
-
-												}
-
-												while( (c=input()) == '*')
-													putchar(c);
-
-												putchar(c);
-
-												if(c=='/'){
-													if((c=input()) == '\n')
-													done = TRUE;
-												}
-
-											}while(!done);
-
-											printf("\n\n");
-										}
-
-	*/
-
-	return 0;
-
-}
-
-
