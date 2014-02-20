@@ -238,7 +238,7 @@ PARAM producao_param__tipoEspec_id_abrColFecCol(TIPO_ESPECIFICADOR tipoEspec, st
 
 //10. COMPOSTO-DECL -> { LOCAL-DECLARACOES STATEMENT-LISTA }
 //Funcoes para gerar o NO 'COMPOSTO_DECL'
-COMPOSTO_DECL producao_param__tipoEspec_id(LOCAL_DECLARACOES localDecl, STATEMENT_LISTA statementLista){
+COMPOSTO_DECL producao_compostoDecl(LOCAL_DECLARACOES localDecl, STATEMENT_LISTA statementLista){
 
 	COMPOSTO_DECL compostoDecl = malloc(sizeof(*compostoDecl));
 

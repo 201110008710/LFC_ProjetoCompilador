@@ -284,7 +284,7 @@ struct COMPOSTO_DECL{
 
 };
 //Funcoes para gerar o NO 'COMPOSTO_DECL'
-COMPOSTO_DECL producao_param__tipoEspec_id(LOCAL_DECLARACOES localDecl, STATEMENT_LISTA statementLista);
+COMPOSTO_DECL producao_compostoDecl(LOCAL_DECLARACOES localDecl, STATEMENT_LISTA statementLista);
 
 
 
