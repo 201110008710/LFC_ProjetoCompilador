@@ -16,24 +16,24 @@ PROGRAMA producao_programa__declaracaoLista(DECLARACAO_LISTA declLista){
 
 //02. DECLARACAO-LISTA -> DECLARACAO-LISTA DECLARACAO | DECLARACAO
 //Funcoes para gerar o NO 'DECLARACAO_LISTA'
-DECLARACAO_LISTA producao_declLista__declLista_decl(DECLARACAO_LISTA declLista, DECLARACAO decl){
+DECLARACAO_LISTA producao_declLista__declLista_decl(DECLARACAO_LISTA declLista, DECLARACAO d){
 	
 	DECLARACAO_LISTA declaracaoLista = malloc(sizeof(*declaracaoLista));
 
 	declaracaoLista->producaoEscolhida = declLista_decl;
 
 	declaracaoLista->uniao.estrutura.declLista = declLista;	
-	declaracaoLista->uniao.estrutura.decl = decl;
+	declaracaoLista->uniao.estrutura.decl = d;
 
 	return declaracaoLista;
 }
-DECLARACAO_LISTA producao_declLista__decl(DECLARACAO decl){
+DECLARACAO_LISTA producao_declLista__decl(DECLARACAO d){
 
 	DECLARACAO_LISTA declaracaoLista = malloc(sizeof(*declaracaoLista));
 
 	declaracaoLista->producaoEscolhida = decl;
 
-	declaracaoLista->uniao.decl = decl;
+	declaracaoLista->uniao.decl = d;
 
 	return declaracaoLista;
 }
@@ -72,7 +72,7 @@ VAR_DECLARACAO producao_vardeclaracao__tipoEspec_id(TIPO_ESPECIFICADOR tipoEspec
 
 	VAR_DECLARACAO varDeclaracao = malloc(sizeof(*varDeclaracao));
 
-	varDeclaracao->producaoEscolhida = tipoespec_id;
+	varDeclaracao->producaoEscolhida = var_tipoespec_id;
 
 	varDeclaracao->uniao.estrutura_Prod1.tipoEspec = tipoEspec;
 	varDeclaracao->uniao.estrutura_Prod1.id = id;
@@ -165,44 +165,25 @@ PARAMS producao_params__void(){
 
 
 //08. PARAM-LISTA -> PARAM-LISTA,PARAM | PARAM
-struct PARAM_LISTA {
-
-	enum{paramlista_param, param} producaoEscolhida;
-
-	union{
-
-		struct{
-
-			PARAM_LISTA paramLista;
-
-			PARAM param;
-
-		} estrutura;
-
-		PARAM param;
-
-	} uniao;
-
-};
 //Funcoes para gerar o NO 'PARAM-LISTA'
-PARAM_LISTA producao_paramLista__paramLista_virg_param(PARAM_LISTA paramLista, PARAM param){
+PARAM_LISTA producao_paramLista__paramLista_virg_param(PARAM_LISTA paramLista, PARAM p){
 
 	PARAM_LISTA param_Lista = malloc(sizeof(*param_Lista));
 
 	param_Lista->producaoEscolhida = paramlista_param;
 
 	param_Lista->uniao.estrutura.paramLista = paramLista;
-	param_Lista->uniao.estrutura.param = param;
+	param_Lista->uniao.estrutura.param = p;
 
 	return param_Lista;
 }
-PARAM_LISTA producao_paramLista__param(PARAM param){
+PARAM_LISTA producao_paramLista__param(PARAM p){
 
 	PARAM_LISTA param_Lista = malloc(sizeof(*param_Lista));
 
 	param_Lista->producaoEscolhida = param;
 
-	param_Lista->uniao.param = param;
+	param_Lista->uniao.param = p;
 
 	return param_Lista;
 }
@@ -215,7 +196,7 @@ PARAM producao_param__tipoEspec_id(TIPO_ESPECIFICADOR tipoEspec, string id){
 
 	PARAM param = malloc(sizeof(*param));
 
-	param->producaoEscolhida = tipoespec_id;
+	param->producaoEscolhida = param_tipoespec_id;
  
 	param->uniao.estrutura_Prod1.tipoEspec = tipoEspec;
 	param->uniao.estrutura_Prod1.id = id;
@@ -228,7 +209,7 @@ PARAM producao_param__tipoEspec_id_abrColFecCol(TIPO_ESPECIFICADOR tipoEspec, st
 
 	param->producaoEscolhida = tipoespec_id_abreColFechaCol;
 
-	param->uniao.estrutura_Prod2.tipoEspec = tipoespec_id_abreColFechaCol;
+	param->uniao.estrutura_Prod2.tipoEspec = tipoEspec;
 	param->uniao.estrutura_Prod2.id = id;
 
 	return param;
@@ -258,8 +239,8 @@ LOCAL_DECLARACOES producao_localDecl__localDecl_varDecl(LOCAL_DECLARACOES localD
 
 	localDeclaracoes->producaoEscolhida = localdecl_vardecl;
 
-	localDeclaracoes->uniao.estrutura.localdecl = localdecl;
-	localDeclaracoes->uniao.estrutura.vardecl = vardecl;
+	localDeclaracoes->uniao.estrutura.localDecl = localDecl;
+	localDeclaracoes->uniao.estrutura.varDecl = varDecl;
 
 	return localDeclaracoes;
 }
@@ -267,7 +248,7 @@ LOCAL_DECLARACOES producao_localDecl__vazio(){
 
 	LOCAL_DECLARACOES localDeclaracoes = malloc(sizeof(*localDeclaracoes));
 
-	localDeclaracoes->producaoEscolhida = vazio;
+	localDeclaracoes->producaoEscolhida = localdecl_vazio;
 
 	return localDeclaracoes;
 }
@@ -291,7 +272,7 @@ STATEMENT_LISTA producao_stmLista__vazio(){
 
 	STATEMENT_LISTA statement_Lista = malloc(sizeof(*statement_Lista));
 
-	statement_Lista->producaoEscolhida = vazio;
+	statement_Lista->producaoEscolhida = stmlista_vazio;
 
 	return statement_Lista;
 }
@@ -405,8 +386,8 @@ SELECAO_DECL producao_selecaoDecl__if_exp_stm_else_stm(EXPRESSAO expressao, STAT
 
 
 //16. INTERACAO-DECL -> while ( EXPRESSAO ) STATEMENT
-//Funcoes para gerar o NO 'INTERACAO-DECL'
-INTERACAO-DECL producao_interacaoDecl(EXPRESSAO expressao, STATEMENT stm){
+//Funcoes para gerar o NO 'INTERACAO_DECL'
+INTERACAO_DECL producao_interacaoDecl(EXPRESSAO expressao, STATEMENT stm){
 
 	INTERACAO_DECL interacaoDecl = malloc(sizeof(*interacaoDecl));
 
@@ -419,18 +400,18 @@ INTERACAO-DECL producao_interacaoDecl(EXPRESSAO expressao, STATEMENT stm){
 
 
 //17. RETORNO-DECL -> return ; | return EXPRESSAO ;
-//Funcoes para gerar o NO 'RETORNO-DECL'
-RETORNO-DECL producao_retornoDecl__return_pontoVirgula(){
+//Funcoes para gerar o NO 'RETORNO_DECL'
+RETORNO_DECL producao_retornoDecl__return_pontoVirgula(){
 
-	RETORNO-DECL retornoDecl = malloc(sizeof(*retornoDecl));
+	RETORNO_DECL retornoDecl = malloc(sizeof(*retornoDecl));
 
 	retornoDecl->producaoEscolhida = return_pontovirgula;
 
 	return retornoDecl;
 }
-RETORNO-DECL producao_retornoDecl__return_expressao(EXPRESSAO expressao){
+RETORNO_DECL producao_retornoDecl__return_expressao(EXPRESSAO expressao){
 
-	RETORNO-DECL retornoDecl = malloc(sizeof(*retornoDecl));
+	RETORNO_DECL retornoDecl = malloc(sizeof(*retornoDecl));
 
 	retornoDecl->producaoEscolhida = return_expressao;
 
@@ -486,7 +467,7 @@ VAR producao_var__id_abrCol_exp_fecCol(string id, EXPRESSAO expressao){
 	var->producaoEscolhida = id_abreColExpFechaCol;
 
 	var->uniao.estrutura.id = id;
-	var->uniao.estrutura.expressao = id;
+	var->uniao.estrutura.expressao = expressao;
 
 	return var;
 }
@@ -513,7 +494,7 @@ SIMPLES_EXPRESSAO producao_simplesExp__somaExp(SOMA_EXPRESSAO somaExp){
 
 	simplesExpressao->producaoEscolhida = somaexp;
 
-	simplesExpressao->uniao.somaExp = sumExp;
+	simplesExpressao->uniao.somaExp = somaExp;
 
 	return simplesExpressao;
 }
@@ -621,26 +602,6 @@ SOMA producao_soma__menos(){
 
 
 //24. TERMO -> TERMO MULT FATOR | FATOR
-struct TERMO{
-
-	enum{termo_mult_fator, fator} producaoEscolhida;
-	union{
-
-		struct{
-
-			TERMO termo;
-
-			MULT mult;
-
-			FATOR fator;
-
-		} estrutura;
-
-		FATOR fator;
-	
-	}uniao;
-
-};
 //Funcoes para gerar o NO 'TERMO'
 TERMO producao_termo__termo_mult_fator(TERMO termo, MULT mult, FATOR fator){
 
@@ -733,6 +694,16 @@ FATOR producao_fator__numero(int num){
 
 	return fator;
 }
+FATOR producao_fator__cadeiaString(string str){
+
+	FATOR fator = malloc(sizeof(*fator));
+
+	fator->producaoEscolhida = cadeiastring;
+
+	fator->uniao.cadeiaString = str;
+
+	return fator;
+}
 
 
 
@@ -752,15 +723,6 @@ ATIVACAO producao_ativacao__argumentos(string id, ARGS argumentos){
 
 
 //28. ARGS -> ARG-LISTA | VAZIO
-struct ARGS{
-	enum{arglista, vazio} producaoEscolhida;
-	
-	union{
-		ARG_LISTA listaArgumentos;
-
-		VAZIO vazio;
-	}uniao;
-};
 //Funcoes para gerar o NO 'ARGS'
 ARGS producao_args__argLista(ARG_LISTA listaArgumentos){
 
@@ -784,24 +746,6 @@ ARGS producao_args__vazio(){
 
 
 //29. ARG-LISTA ->ARG-LISTA , EXPRESSAO | EXPRESSAO
-struct ARG_LISTA{
-	enum{arglista_expressao, expressao} producaoEscolhida;
-
-	union{
-
-		struct{
-
-			ARG_LISTA listaArgumentos;
-
-			EXPRESSAO expressao;
-
-		} estrutura;
-		
-		EXPRESSAO expressao;
-
-	}uniao;
-
-};
 //Funcoes para gerar o NO 'ARG_LISTA'
 ARG_LISTA producao_argLista__argLista_pontoVirgula_exp(ARG_LISTA listaArgumentos, EXPRESSAO expressao){
 
@@ -826,9 +770,6 @@ ARG_LISTA producao_argLista__exp(EXPRESSAO expr){
 }
 
 //Definicao da producao vazia
-struct VAZIO{
-
-};
 VAZIO producao_vazio__(){
 
 	VAZIO vazio = malloc(sizeof(*vazio));

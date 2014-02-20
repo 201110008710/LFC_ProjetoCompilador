@@ -20,7 +20,7 @@ typedef struct FUN_DECLARACAO *FUN_DECLARACAO;
 
 typedef struct PARAMS *PARAMS;
 
-typedef struct PARAMS_LISTA *PARAMS_LISTA;
+typedef struct PARAM_LISTA *PARAM_LISTA;
 
 typedef struct PARAM *PARAM;
 
@@ -100,8 +100,8 @@ struct DECLARACAO_LISTA{
 
 };
 //Funcoes para gerar o NO 'DECLARACAO_LISTA'
-DECLARACAO_LISTA producao_declLista__declLista_decl(DECLARACAO_LISTA declLista, DECLARACAO decl);
-DECLARACAO_LISTA producao_declLista__decl(DECLARACAO decl);
+DECLARACAO_LISTA producao_declLista__declLista_decl(DECLARACAO_LISTA declLista, DECLARACAO d);
+DECLARACAO_LISTA producao_declLista__decl(DECLARACAO d);
 
 
 
@@ -128,7 +128,7 @@ DECLARACAO producao_declaracao__funDeclaracao(FUN_DECLARACAO funDecl);
 //04. VAR-DECLARACAO -> TIPO-ESPECIFICADOR id ; | TIPO-ESPECIFICADOR id [ numero ];
 struct VAR_DECLARACAO{
 
-	enum{tipoespec_id, tipoespec_id_abreColNumFechaCol} producaoEscolhida;
+	enum{var_tipoespec_id, tipoespec_id_abreColNumFechaCol} producaoEscolhida;
 
 	union{
 
@@ -142,7 +142,7 @@ struct VAR_DECLARACAO{
 
 		struct{
 
-			TIPO-ESPECIFICADOR tipoEspec;
+			TIPO_ESPECIFICADOR tipoEspec;
 
 			string id;
 
@@ -239,15 +239,15 @@ struct PARAM_LISTA {
 
 };
 //Funcoes para gerar o NO 'PARAM-LISTA'
-PARAM_LISTA producao_paramLista__paramLista_virg_param(PARAM_LISTA paramLista, PARAM param);
-PARAM_LISTA producao_paramLista__param(PARAM param);
+PARAM_LISTA producao_paramLista__paramLista_virg_param(PARAM_LISTA paramLista, PARAM p);
+PARAM_LISTA producao_paramLista__param(PARAM p);
 
 
 
 //09. PARAM -> TIPO-ESPECIFICADOR id | TIPO-ESPECIFICADOR id []
 struct PARAM{
 
-	enum{tipoespec_id, tipoespec_id_abreColFechaCol} producaoEscolhida;
+	enum{param_tipoespec_id, tipoespec_id_abreColFechaCol} producaoEscolhida;
 
 	union{
 
@@ -292,7 +292,7 @@ COMPOSTO_DECL producao_compostoDecl(LOCAL_DECLARACOES localDecl, STATEMENT_LISTA
 //11. LOCAL-DECLARACOES -> LOCAL-DECLARACOES VAR-DECLARACAO | VAZIO
 struct LOCAL_DECLARACOES{
 
-	enum{localdecl_vardecl, vazio} producaoEscolhida;
+	enum{localdecl_vardecl, localdecl_vazio} producaoEscolhida;
 
 	union{
 		struct{
@@ -317,7 +317,7 @@ LOCAL_DECLARACOES producao_localDecl__vazio();
 //12. STATEMENT-LISTA -> STATEMENT-LISTA STATEMENT | VAZIO
 struct STATEMENT_LISTA{
 
-	enum{statementlista_statement, vazio} producaoEscolhida;
+	enum{statementlista_statement, stmlista_vazio} producaoEscolhida;
 
 	union{
 		struct{
@@ -328,7 +328,7 @@ struct STATEMENT_LISTA{
 
 		}estrutura;
 
-		VAZIO vazio;
+		VAZIO producaoVazia;
 
 	} uniao;
 
@@ -435,8 +435,8 @@ struct INTERACAO_DECL{
 	STATEMENT statement;
 
 };
-//Funcoes para gerar o NO 'INTERACAO-DECL'
-INTERACAO-DECL producao_interacaoDecl(EXPRESSAO expressao, STATEMENT stm);
+//Funcoes para gerar o NO 'INTERACAO_DECL'
+INTERACAO_DECL producao_interacaoDecl(EXPRESSAO expressao, STATEMENT stm);
 
 
 
@@ -458,9 +458,9 @@ struct RETORNO_DECL{
 	} uniao;
 
 };
-//Funcoes para gerar o NO 'RETORNO-DECL'
-RETORNO-DECL producao_retornoDecl__return_pontoVirgula();
-RETORNO-DECL producao_retornoDecl__return_expressao(EXPRESSAO expressao);
+//Funcoes para gerar o NO 'RETORNO_DECL'
+RETORNO_DECL producao_retornoDecl__return_pontoVirgula();
+RETORNO_DECL producao_retornoDecl__return_expressao(EXPRESSAO expressao);
 
 
 
@@ -606,7 +606,7 @@ struct SOMA{
 
 		struct{} sinalMenos;
 	
-	}
+	} uniao;
 
 };
 //Funcoes para gerar o NO 'SOMA'
@@ -666,7 +666,7 @@ MULT producao_mult__divisao();
 //26. FATOR -> ( EXPRESSAO ) | VAR | ATIVACAO | numero
 struct FATOR{
 
-	enum{abrePExpFechaP, variavel, ativacao, numero} producaoEscolhida;
+	enum{abrePExpFechaP, variavel, ativacao, numero, cadeiastring} producaoEscolhida;
 
 	union{
 
@@ -677,6 +677,8 @@ struct FATOR{
 		ATIVACAO ativacao;
 
 		int numero;
+
+		string cadeiaString;
 	} uniao;
 
 };
@@ -685,6 +687,7 @@ FATOR producao_fator__abrP_exp_fecP(EXPRESSAO expressao);
 FATOR producao_fator__var(VAR var);
 FATOR producao_fator__ativacao(ATIVACAO ativ);
 FATOR producao_fator__numero(int num);
+FATOR producao_fator__cadeiaString(string str);
 
 
 

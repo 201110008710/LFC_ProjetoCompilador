@@ -65,10 +65,15 @@
 ################################################################################################
 
   bison -v -d -o parser_generateByBison.c parser.y
+
+  flex -v -t scanner.l > scanner_generateByFlex.c
+
+  gcc parser_generateByBison.c scanner_generateByFlex.c -o compilador
+
 */
 
 #include "ESTRUTURAS_DA_ARVORE_SINTATICA.h"
-#include "IMPLEMENTACAO_DAS_ESTRUTURAS_DA_ARVORE.h"
+#include "IMPLEMENTACAO_DAS_FUNCOES_GERADORAS_DA_ARVORE.h"
 
 
 //Declaracao da funcao yyerror()
@@ -81,9 +86,9 @@ void yyerror(char *s);
 
 %union{
 
-	char* id;
-	int digito;
 	char* string;
+
+	int digito;
 
 	PROGRAMA programa;
 
@@ -99,7 +104,7 @@ void yyerror(char *s);
 
 	PARAMS params;
 
-	PARAMS_LISTA params_lista;
+	PARAM_LISTA param_lista;
 
 	PARAM param;
 
@@ -143,8 +148,6 @@ void yyerror(char *s);
 
 	ARG_LISTA arg_lista;
 
-	VAZIO vazio;
-
 };
 
 
@@ -155,8 +158,9 @@ void yyerror(char *s);
 %token ABRECOLCHETE FECHACOLCHETE ABRECHAVE FECHACHAVE
 
 %token<string> ID
-%token<digito> DIGITO
 %token<string> CADEIASTRING
+%token<digito> DIGITO
+
 
 
 %type <programa>			PROGRAMA
@@ -166,7 +170,7 @@ void yyerror(char *s);
 %type <tipo_especificador>	TIPO_ESPECIFICADOR
 %type <fun_declaracao>		FUN_DECLARACAO
 %type <params> 				PARAMS
-%type <params_lista>		PARAMS_LISTA
+%type <param_lista>			PARAM_LISTA
 %type <param>				PARAM
 %type <composto_decl>		COMPOSTO_DECL
 %type <local_declaracoes>	LOCAL_DECLARACOES
@@ -188,7 +192,6 @@ void yyerror(char *s);
 %type <ativacao> 			ATIVACAO
 %type <args>				ARGS
 %type <arg_lista>			ARG_LISTA
-%type <vazio>				VAZIO
 
 
 %start PROGRAMA
@@ -198,7 +201,7 @@ void yyerror(char *s);
 %%
 
 /* 01. PROGRAMA -> DECLARACAO-LISTA */
-PROGRAMA: 			  DECLARACAO-LISTA	{ $$ = producao_programa__declaracaoLista($1); }
+PROGRAMA: 			  DECLARACAO_LISTA	{ $$ = producao_programa__declaracaoLista($1); }
 ;
 
 
@@ -223,7 +226,7 @@ VAR_DECLARACAO : 	  TIPO_ESPECIFICADOR ID PONTOVIRGULA
 ;
 
 
-/* 05. TIPO-ESPECIFICADOR -> int | void */
+/* 05. TIPO-ESPECIFICADOR -> int | void | string*/
 TIPO_ESPECIFICADOR:   INT    { $$ = producao_tipoEspec__int(); }
 					| VOID   { $$ = producao_tipoEspec__void(); }
 					| STRING { $$ = producao_tipoEspec__string(); }
@@ -237,13 +240,13 @@ FUN_DECLARACAO : 	  TIPO_ESPECIFICADOR ID ABREPARENTESIS PARAMS FECHAPARENTESIS 
 
 
 /* 07. PARAMS -> PARAM-LISTA | void */
-PARAMS : 			  PARAM-LISTA { $$ = producao_params__paramLista($1); }
+PARAMS : 			  PARAM_LISTA { $$ = producao_params__paramLista($1); }
 					| VOID 		  { $$ = producao_params__void(); }
 ;
 
 
 /* 08. PARAM-LISTA -> PARAM-LISTA,PARAM | PARAM */
-PARAMS_LISTA : 		  PARAMS_LISTA VIRGULA PARAM 	{ $$ = producao_paramLista__paramLista_virg_param($1, $3); }
+PARAM_LISTA : 		  PARAM_LISTA VIRGULA PARAM 	{ $$ = producao_paramLista__paramLista_virg_param($1, $3); }
 					| PARAM 						{ $$ = producao_paramLista__param($1); }
 ;
 
@@ -258,7 +261,7 @@ PARAM : 			  TIPO_ESPECIFICADOR ID
 
 
 /* 10. COMPOSTO-DECL -> { LOCAL-DECLARACOES STATEMENT-LISTA } */
-COMPOSTO_DECL : 	  ABRECHAVE LOCAL_DECLARACOES STATEMENT_LISTA FECHACHAVE { $$ = producao_compostDecl($2, $3); }
+COMPOSTO_DECL :		  ABRECHAVE LOCAL_DECLARACOES STATEMENT_LISTA FECHACHAVE { $$ = producao_compostoDecl($2, $3); }
 ;
 
 
@@ -299,7 +302,7 @@ SELECAO_DECL : 		  IF ABREPARENTESIS EXPRESSAO FECHAPARENTESIS STATEMENT
 
 
 /* 16. INTERACAO-DECL -> while ( EXPRESSAO ) STATEMENT */
-INTERACAO-DECL : 	  WHILE ABREPARENTESIS EXPRESSAO FECHAPARENTESIS STATEMENT
+INTERACAO_DECL : 	  WHILE ABREPARENTESIS EXPRESSAO FECHAPARENTESIS STATEMENT
 					  { $$ = producao_interacaoDecl($3, $5); }
 ;
 
@@ -312,7 +315,7 @@ RETORNO_DECL : 		  RETURN PONTOVIRGULA 				{ $$ = producao_retornoDecl__return_p
 
 /* 18. EXPRESSAO -> VAR = EXPRESSAO | SIMPLES-EXPRESSAO */
 EXPRESSAO : 		  VAR IGUAL EXPRESSAO 	{ $$ = producao_expressao__var_igual_expressao($1, $3); }
-					| SIMPLES-EXPRESSAO 	{ $$ = producao_expressao__simplesExpressao($1); }
+					| SIMPLES_EXPRESSAO 	{ $$ = producao_expressao__simplesExpressao($1); }
 ;
 
 
@@ -370,6 +373,7 @@ FATOR : 			  ABREPARENTESIS EXPRESSAO FECHAPARENTESIS 	{ $$ = producao_fator__ab
 					| VAR 										{ $$ = producao_fator__var($1);}
 					| ATIVACAO 									{ $$ = producao_fator__ativacao($1); }
 					| DIGITO 									{ $$ = producao_fator__numero($1); }
+					| CADEIASTRING 								{ $$ = producao_fator__cadeiaString($1); }
 ;
 
 
@@ -389,7 +393,7 @@ ARG_LISTA : 		  ARG_LISTA VIRGULA EXPRESSAO
 					  { $$ = producao_argLista__argLista_pontoVirgula_exp($1, $3); }
 
 					| EXPRESSAO
-					  { $$ = producao_argLista__exp(EXPRESSAO expr); }
+					  { $$ = producao_argLista__exp($1); }
 %%
 
 #include <stdlib.h>
@@ -397,8 +401,8 @@ ARG_LISTA : 		  ARG_LISTA VIRGULA EXPRESSAO
 
 void yyerror(char *s)
 {
-   //fprintf(stderr,"Erro sintático.\n");
-   //exit(1);
+   printf("Erro sintático.\n");
+   exit(1);
 }
 
 main(){

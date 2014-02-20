@@ -1,9 +1,13 @@
-%option nostdinit noyywrap
+%option noyywrap
+
+%{ 
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
+	#include "ESTRUTURAS_DA_ARVORE_SINTATICA.h"
 	#include "parser_generateByBison.h"
-
+%}
+	
 LETRA [a-zA-Z][a-zA-Z]*
 
 DIGITO [0-9][0-9]*
@@ -140,6 +144,9 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 												printf("=> Cadeia de String invalida --- \"%s",str);
 											}
 											if(Q == '"' && !escapeInvalido){
+
+												yylval.string = strdup(str);
+
 												return CADEIASTRING;
 											}
 											printf("\n\n");
