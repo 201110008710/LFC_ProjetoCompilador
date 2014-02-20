@@ -1,9 +1,9 @@
 //Confiuracoes de usuario
-git config --global user.name nomeDe usuario
-git config --global user.email nomeDe usuario
+git config --global user.name nomeDeusuario
+git config --global user.email nomeDeeusuario
 
 //Pega o repositorio GIT do GitHub
-git clone https://github.com/Elwyslan/LFC_AnalisadorLexico.git 
+git clone https://github.com/Elwyslan/LFC_AnalisadorLexico.git
 
 //Lista os repositorios disponíveis
 git remote -v
