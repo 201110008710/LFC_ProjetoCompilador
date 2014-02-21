@@ -8,7 +8,7 @@
   03. DECLARACAO -> VAR-DECLARACAO | FUN-DECLARACAO
 
   04. VAR-DECLARACAO -> TIPO-ESPECIFICADOR id ; | TIPO-ESPECIFICADOR id [ numero ];
-  05. TIPO-ESPECIFICADOR -> int | void
+  05. TIPO-ESPECIFICADOR -> int | void | string
 
   06. FUN-DECLARACAO -> TIPO-ESPECIFICADOR id ( PARAMS) COMPOSTO-DECL
   07. PARAMS -> PARAM-LISTA | void
@@ -41,7 +41,7 @@
   24. TERMO -> TERMO MULT FATOR | FATOR
   25. MULT -> * | /
 
-  26. FATOR -> ( EXPRESSAO ) | VAR | ATIVACAO | numero
+  26. FATOR -> ( EXPRESSAO ) | VAR | ATIVACAO | numero | CADEIASTRING 
   
   27. ATIVACAO -> id ( ARGS )
   28. ARGS -> ARG-LISTA | VAZIO
@@ -69,6 +69,8 @@
   flex -v -t scanner.l > scanner_generateByFlex.c
 
   gcc parser_generateByBison.c scanner_generateByFlex.c -o compilador
+
+  ./compilador <teste.c
 
 */
 

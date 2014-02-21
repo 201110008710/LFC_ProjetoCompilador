@@ -216,14 +216,15 @@ SIMBOLOINV [_!@#$£%¢&§ª][_!@#$£%¢&§ª]*
 											if(Q == EOF || numComents != 0 || escapeInvalido){
 												cmt[lenCmt-1] = 0;
 												printf("=> Comentario Invalido --------- /*%s",cmt);
+												printf("\n\n");
 											
 											}else if(numComents == 0){
 
-												printf("=> Comentario ------------------ /*%s",cmt);
+												//printf("=> Comentario ------------------ /*%s",cmt);
+												//printf("\n\n");
 
 											}
 
-											printf("\n\n");
 										}
 
 
