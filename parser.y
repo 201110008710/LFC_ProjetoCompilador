@@ -64,13 +64,20 @@
 
 ################################################################################################
 
+  -> GERAR AS BIBIOTECAS COM O BISON E O FLEX
+
   bison -v -d -o parser_generateByBison.c parser.y
 
   flex -v -t scanner.l > scanner_generateByFlex.c
 
+  -> COMPILAR O COMPILADOR APARTIR DAS BIBIOTECAS GERADAS
+
   gcc parser_generateByBison.c scanner_generateByFlex.c -o compilador
 
-  ./compilador <teste.c
+  -> TESTAR
+  ./compilador <teste0.c
+  ./compilador <teste1.c
+  ./compilador <teste2.c
 
 */
 
