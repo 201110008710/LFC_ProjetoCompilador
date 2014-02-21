@@ -22,3 +22,18 @@ git push origin master
 
 //Lista repositorios GIT remotos que foram baixados
 git remote -v
+
+
+/////////////////////////////////////////////////////////////////
+
+(erro na hora de fazer "git push origin master" # Solução via stackoverflow)
+
+git remote add origin //your github url
+
+//pull those changes
+
+git pull origin master
+
+//now, push your work to your new repo
+
+git push origin master
