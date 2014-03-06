@@ -91,6 +91,7 @@ Obs: Caso o sistema operacional não permita executar o script, basta alterar as
 chmod u+x executar.sh
 
 Ao final será gerado o executavel 'compilador' que é usado dessa maneira:
+
 ./compilador <[arquivo].c
 
 
