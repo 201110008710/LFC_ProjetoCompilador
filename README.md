@@ -86,7 +86,8 @@ gcc parser_generateByBison.c scanner_generateByFlex.c -o compilador
 
 ./executar.sh
 
-Obs: Caso o sistema operacional não permitar executar o script, basta alterar as permições do arquivo com o comando:
+Obs: Caso o sistema operacional não permita executar o script, basta alterar as permições do arquivo com o comando:
+
 chmod u+x executar.sh
 
 Ao final será gerado o executavel 'compilador' que é usado dessa maneira:
